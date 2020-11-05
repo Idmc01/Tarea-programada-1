@@ -131,6 +131,51 @@ def apartarAnimales():
         b.write(dato)
     b.close
     return ""
+def anotaciones():
+    lista1=[]
+    lista2=[]
+    c=open("AP.txt","r")
+    for linea in c.readlines():
+        lista1+= [linea]
+    c.close
+    p=1
+    for animal in lista1:
+        print (p,"-",animal)
+        p+=1
+    op=int(input("Seleccione el animal a buscar: "))
+    l=len(lista1)
+    if op<=l and op>0:
+        anima=lista1[op-1]
+        at=input("Anotaciones: ")
+        try:
+            b=open("Anotaciones","rb")
+            lista2=pickle.load(b)
+            b.close
+            for lista in lista2:
+                if lista[0]==anima:
+                    lista.append(at)
+                    a=open("Anotaciones","wb")
+                    pickle.dump(lista2,a)
+                    a.close
+                    for objeto in lista2:
+                        print("")
+                        for dato in objeto:
+                            print(dato)
+                    return ""
+        except:
+            pass
+        lista2+=[[anima,at]]
+        a=open("Anotaciones","wb")
+        pickle.dump(lista2,a)
+        a.close
+        print("")
+        for objeto in lista2:
+            print("")
+            for dato in objeto:
+                print(dato)
+    return ""
+        
 #agregarAnimales()    
 #apartarAnimales()
-obtenerInformacion()
+#obtenerInformacion()
+anotaciones()
