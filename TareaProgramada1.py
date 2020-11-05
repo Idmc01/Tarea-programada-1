@@ -7,6 +7,7 @@ import re
 import pickle
 import random
 import os
+import wikipedia as wiki
 #Definición de funciones:
 #Programa principal
 def agregarAnimales():
@@ -75,6 +76,30 @@ def agregarAnimales():
         b.write(dato)
     b.close
     return ""
+def obtenerInformacion():
+    lista1=[]
+    c=open("AP.txt","r")
+    for linea in c.readlines():
+        lista1+= [linea]
+    c.close
+    p=1
+    for animal in lista1:
+        print (p,"-",animal)
+        p+=1
+    op=int(input("Seleccione el animal a buscar: "))
+    l=len(lista1)
+    if op<=l and op>0:
+        wiki.set_lang("es")
+        anima=lista1[op-1]
+        inf=wiki.page(anima)
+        titulo=inf.title
+        url=inf.url
+        info=wiki.summary(anima)
+        info=re.sub('\[\d+\]', '', info)
+        ima=inf.images[0]
+        print(anima,titulo,"\n",url,"\n",info,"\n",ima)
+    return ""
+
 def apartarAnimales():
     lista1 = []
     lista2 = []
@@ -101,6 +126,6 @@ def apartarAnimales():
         b.write(dato)
     b.close
     return ""
-
-agregarAnimales()    
+#agregarAnimales()    
 #apartarAnimales()
+obtenerInformacion()
