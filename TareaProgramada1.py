@@ -87,8 +87,6 @@ def apartarAnimales():
     for linea in a.readlines():
         lista1+= [linea]
     a.close
-    #l = len(lista1)
-    #n = l-cantidadA
     while cantidadA>0:
         animal=random.choice(lista1)
         if animal in lista2:
