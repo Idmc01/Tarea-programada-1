@@ -102,5 +102,5 @@ def apartarAnimales():
     b.close
     return ""
 
-#agregarAnimales()    
+agregarAnimales()    
 #apartarAnimales()
