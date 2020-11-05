@@ -96,8 +96,13 @@ def obtenerInformacion():
         url=inf.url
         info=wiki.summary(anima)
         info=re.sub('\[\d+\]', '', info)
-        ima=inf.images[0]
-        print(anima,titulo,"\n",url,"\n",info,"\n",ima)
+        ima=inf.images
+        lista2=[]
+        for link in ima:
+            la=len(link)
+            if link[la-3]=="j":
+                lista2.append(link)
+        print(anima,titulo,"\n",url,"\n",info,"\n",lista2[0])
     return ""
 
 def apartarAnimales():
