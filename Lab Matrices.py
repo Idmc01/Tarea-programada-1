@@ -1,5 +1,7 @@
 import names
 import random
+import re
+import time
 def pedirDatos():
     cp=int(input("Cantidad de participantes en la reunión: "))
     if cp>100 or cp<0:
@@ -65,7 +67,7 @@ def brindarDatos(lista):
                 estudiante.append(random.choice(presencia))
                 estudiante.append(random.choice(reacciones))
                 print(estudiante)
-    return renombrar(lista)
+    return salir()
 def reactivarAudio(lista):
     es=input("Introduzca nombre del estudiante: ")
     ap=input("Introduzca apellido del estudiante: ")
@@ -99,7 +101,6 @@ def renombrar(lista):
     for pantalla in lista:
         for fila in pantalla:
             for estudiante in fila:
-                #print(estudiante)
                 if estudiante[0]==es and estudiante[1]==ap and estudiante[2]==ap2:
                     nn = input("Ingrese el nuevo nombre: ")
                     na = input("Ingrese el nuevo primer apellido: ")
@@ -118,5 +119,74 @@ def renombrar(lista):
         f=1
     print ("Nombre no encontrado")
     return renombrar(lista)
-def                     
+def mostrarTodo(lista):
+    p=1
+    f=1
+    c=1
+    for pantalla in lista:
+        for fila in pantalla:
+            for estudiante in fila:
+                au=estudiante[3]
+                tp=estudiante[4]
+                if au==True:
+                    au="Activo"
+                else:
+                    au="Inactivo"
+                if tp==1:
+                    tp="Foto Visible"
+                elif tp==2:
+                    tp="Foto no Visible"
+                else:
+                    tp="Video Activo"
+                print("Página:",p,"Fila:",f,"Columna:",c,
+                      "Nombre:",estudiante[0],estudiante[1],estudiante[2],
+                      "Audio:",au,"Tipo de presencia:",tp)
+                c+=1
+            f+=1
+            c=1
+        p+=1
+        f=1
+    return ""
+def participantesVideo(lista):
+    p=1
+    f=1
+    c=1
+    for pantalla in lista:
+        for fila in pantalla:
+            for estudiante in fila:
+                if estudiante[4]==3:
+                    print("Página:",p,"Fila:",f,"Columna:",c,
+                      "Nombre:",estudiante[0],estudiante[1],estudiante[2])
+                c+=1
+            f+=1
+            c=1
+        p+=1
+        f=1
+    return ""
+def buscarParticipantes(lista):
+    ec=input("Introduzca nombre a buscar: ")
+    Ec=ec.capitalize()
+    p=1
+    f=1
+    c=1
+    for pantalla in lista:
+        for fila in pantalla:
+            for estudiante in fila:
+                if re.search(ec,estudiante[0])!=None or re.search(ec,estudiante[1])!=None or re.search(ec,estudiante[2])!=None or re.search(Ec,estudiante[0])!=None or re.search(Ec,estudiante[1])!=None or re.search(Ec,estudiante[2])!=None:
+                    print("Página:",p,"Fila:",f,"Columna:",c,
+                      "Nombre:",estudiante[0],estudiante[1],estudiante[2])
+                c+=1
+            f+=1
+            c=1
+        p+=1
+        f=1
+    return ""
+def salir():
+    t=5
+    print("El anfitrión ha eliminado su participación de esta reunión. Saliendo en")
+    while t!=0:
+        print(t)
+        t-=1
+        time.sleep(5)
+    return ""
 pedirDatos()
