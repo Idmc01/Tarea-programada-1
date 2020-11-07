@@ -65,7 +65,7 @@ def brindarDatos(lista):
                 estudiante.append(random.choice(presencia))
                 estudiante.append(random.choice(reacciones))
                 print(estudiante)
-    return reactivarAudio(lista)
+    return renombrar(lista)
 def reactivarAudio(lista):
     es=input("Introduzca nombre del estudiante: ")
     ap=input("Introduzca apellido del estudiante: ")
@@ -89,8 +89,34 @@ def reactivarAudio(lista):
         p+=1
         f=1
     return ""
-def renombrar():
+def renombrar(lista):
     es=input("Introduzca nombre del estudiante: ")
     ap=input("Introduzca primer apellido del estudiante: ")
     ap2=input("Introduzca segundo apellido del estudiante: ")
+    p=1
+    f=1
+    c=1
+    for pantalla in lista:
+        for fila in pantalla:
+            for estudiante in fila:
+                #print(estudiante)
+                if estudiante[0]==es and estudiante[1]==ap and estudiante[2]==ap2:
+                    nn = input("Ingrese el nuevo nombre: ")
+                    na = input("Ingrese el nuevo primer apellido: ")
+                    na2 = input("Ingrese el nuevo segundo apellido: ")
+                    estudiante[0] = nn
+                    estudiante[1] = na
+                    estudiante[2] = na2
+                    print("Nombre cambiado exitosamente")
+                    print ("Página:",p,"Fila:",f,"Columna:",c)
+                    print(estudiante)
+                    return ""
+                c+=1
+            f+=1
+            c=1
+        p+=1
+        f=1
+    print ("Nombre no encontrado")
+    return renombrar(lista)
+def                     
 pedirDatos()
