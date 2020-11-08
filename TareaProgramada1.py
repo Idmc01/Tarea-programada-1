@@ -8,6 +8,7 @@ import pickle
 import random
 import os
 import wikipedia as wiki
+import xml.etree.ElementTree as ET
 #Definición de funciones:
 #Programa principal
 def agregarAnimales():
@@ -69,7 +70,6 @@ def agregarAnimales():
         else:
             lista2.append(animal)
             cantidadA-=1
-    print(lista1)
     print(lista2)
     b = open("AP.txt","w")
     for dato in lista2:
@@ -100,7 +100,7 @@ def obtenerInformacion():
         lista2=[]
         for link in ima:
             la=len(link)
-            if link[la-3]=="j":
+            if link[la-3]=="j" or link[la-3]=="J":
                 lista2.append(link)
         print(anima,titulo,"\n",url,"\n",info,"\n",lista2[0])
     return ""
@@ -124,7 +124,6 @@ def apartarAnimales():
         else:
             lista2.append(animal)
             cantidadA-=1
-    print(lista1)
     print(lista2)
     b = open("AP.txt","w")
     for dato in lista2:
@@ -174,8 +173,68 @@ def anotaciones():
             for dato in objeto:
                 print(dato)
     return ""
-        
-#agregarAnimales()    
-#apartarAnimales()
+def salvaguardando():
+    lista1=[]
+    lista2=[]
+    a=open("Anotaciones","rb")
+    anotaciones=pickle.load(a)
+    a.close
+    b=open("AP.txt","r")
+    for linea in b.readlines():
+        lista1+= [linea]
+    b.close
+    print("Buscando información...")
+    for anima in lista1:
+        wiki.set_lang("es")
+        inf=wiki.page(anima)
+        titulo=inf.title
+        url=inf.url
+        info=wiki.summary(anima)
+        info=re.sub('\[\d+\]', '', info)
+        lista2+=[[anima,titulo,url,info]]
+    print("Información guardada")
+    for anima in lista2:
+        for dato in anotaciones:
+            if dato[0]==anima[0]:
+                l=len(dato)
+                p=1
+                while p<l:
+                    anima.append(dato[p])
+                    p+=1
+    c=open("Salvaguardado","wb")
+    pickle.dump(lista2,c)
+    c.close
+    for anima in lista2:
+        for dato in anima:
+            print(dato)
+        print("")
+    return ""
+def exportandoBD():
+    a=open("Salvaguardado","rb")
+    lista=pickle.load(a)
+    a.close
+    p=4
+    root = ET.Element("Zoo")
+    for anima in lista:
+        l=len(anima)
+        doc = ET.SubElement(root, "Datos")
+        ET.SubElement(doc, "Nombre", Animal=anima[0]).text = anima[1]
+        ET.SubElement(doc, "Informacion", Animal=anima[2]).text = anima[3]
+        while p<l:
+            ET.SubElement(doc, "Anotaciones", Animal=anima[p]).text = ""
+            p+=1
+        p=4
+    tree = ET.ElementTree(root)
+    na=input("Ingrese el nombre con el que desea guardar el archivo: ")
+    tree.write(na+".xml")
+    return ""
+def salir():
+    print("Los animales nacen como son, lo aceptan y eso es todo. Viven con mayor paz que las personas")
+    return ""
+#agregarAnimales()
 #obtenerInformacion()
-anotaciones()
+#apartarAnimales()
+#anotaciones()
+#salvaguardando()
+#exportandoBD()
+#salir()
