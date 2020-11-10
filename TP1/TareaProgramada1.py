@@ -9,9 +9,10 @@ import random
 import os
 import wikipedia as wiki
 import xml.etree.ElementTree as ET
+import webbrowser
 #Definición de funciones:
 #Programa principal
-def agregarAnimales():
+def agregarAnimales(nuevaCarpeta):
     """
     Funcionalidad:Agregar animales al archivo
     Entradas:Cantidad de animales que se quiere en el zoológico
@@ -20,16 +21,14 @@ def agregarAnimales():
     lista1 = []
     conf=0
     try:
-        c=open("AP.txt","r")
-        for linea in c.readlines():
-            lista1+= [linea]
+        c=open(nuevaCarpeta,"rb")
+        lista1=pickle.load(c)
         c.close
         print("Desea cargar datos de un archivo binario previo")
-        conf=int(input("1.Si\n2.No\n"))
+        conf=int(input("1.Si\n2.No\nOpción: "))
         if conf==1:
             ubicacion=input("Indique el nombre del archivo: ")
-            #Terminar
-            #ubicacion = "AP.txt"
+            print("Buscando archivo...")
             initial_dir = 'C:\\'
 
             path = ''
@@ -37,13 +36,13 @@ def agregarAnimales():
                 if ubicacion in files:
                    path = os.path.join(root, ubicacion)
                    break
-            #lista = []
-            f = open (ubicacion,"r")
-            lista = f.readlines()
+            f = open (ubicacion,"rb")
+            lista = pickle.load(f)
             f.close()
             print(path)
-            print (lista)
-            return ""
+            for dato in lista:
+                print(dato)
+            return nuevaCarpeta
         elif conf==2:
             pass
         else:
@@ -58,7 +57,16 @@ def agregarAnimales():
     except:
         print("Cantidad no válida")
         return agregarAnimales()
-    a = open("EjemploDeArchivoTP1.txt",encoding="utf8")
+    nomArchivo=input("Indique el nombre del archivo y su extensión: ")
+    print("Buscando archivo...")
+    initial_dir = 'C:\\'
+
+    path = ''
+    for root, _, files in os.walk(initial_dir):
+        if nomArchivo in files:
+           path = os.path.join(root, nomArchivo)
+           break
+    a = open(nomArchivo,encoding="utf8")
     for linea in a.readlines():
         lista1+= [linea]
     a.close
@@ -75,22 +83,25 @@ def agregarAnimales():
         else:
             lista2.append(animal)
             cantidadA-=1
-    print(lista2)
-    b = open("AP.txt","w")
     for dato in lista2:
-        b.write(dato)
+        print(dato)
+    nuevaCarpeta = input("Indique el nombre con el que desea guardar el archivo: ")
+    b = open(nuevaCarpeta,"wb")
+    #for dato in lista2:
+    pickle.dump(lista2,b)
     b.close
-    return ""
-def obtenerInformacion():
+    return nuevaCarpeta
+#def agregarAnimalesAux(nuevaCarpeta):
+    
+def obtenerInformacion(nuevaCarpeta):
     """
     Funcionalidad:Obtener la información del animal elegido
     Entradas:Nombre del animal que se quiere buscar
     Salidas:Título,nombre,url de wikipedia,resumen e imagen del animal
     """
     lista1=[]
-    c=open("AP.txt","r")
-    for linea in c.readlines():
-        lista1+= [linea]
+    c=open(nuevaCarpeta,"rb")
+    lista1 = pickle.load(c)
     c.close
     p=1
     for animal in lista1:
@@ -112,10 +123,11 @@ def obtenerInformacion():
             la=len(link)
             if link[la-3]=="j" or link[la-3]=="J":
                 lista2.append(link)
-        print(anima,titulo,"\n",url,"\n",info,"\n",lista2[0])
+        print(anima,titulo,"\n",url,"\n",info,"\n")
+        webbrowser.open_new_tab(lista2[0])
     return ""
 
-def apartarAnimales():
+def apartarAnimales(nuevaCarpeta):
     """
     Funcionalidad:Modificar la cantidad de animales del zoológico segun indique el usuario
     Entrada:Cantidad nueva de animales
@@ -128,9 +140,8 @@ def apartarAnimales():
     except:
         print("Cantidad no válida")
         return apartarAnimales()
-    a = open("AP.txt","r")
-    for linea in a.readlines():
-        lista1+= [linea]
+    a = open(nuevaCarpeta,"rb")
+    lista1 = pickle.load(a)
     a.close
     while cantidadA>0:
         animal=random.choice(lista1)
@@ -139,13 +150,13 @@ def apartarAnimales():
         else:
             lista2.append(animal)
             cantidadA-=1
-    print(lista2)
-    b = open("AP.txt","w")
     for dato in lista2:
-        b.write(dato)
+        print(dato)
+    b = open(nuevaCarpeta,"wb")
+    pickle.dump(lista2,b)
     b.close
     return ""
-def anotaciones():
+def anotaciones(nuevaCarpeta,nombre):
     """
     Funcionalidad:Insertar y guardar anotaciones para un animal
     Entrada:El animal al que se le quieren hacer las anotaciones
@@ -153,9 +164,8 @@ def anotaciones():
     """
     lista1=[]
     lista2=[]
-    c=open("AP.txt","r")
-    for linea in c.readlines():
-        lista1+= [linea]
+    c=open(nuevaCarpeta,"rb")
+    lista1 = pickle.load(c)
     c.close
     p=1
     for animal in lista1:
@@ -167,13 +177,13 @@ def anotaciones():
         anima=lista1[op-1]
         at=input("Anotaciones: ")
         try:
-            b=open("Anotaciones","rb")
+            b=open(nombre,"rb")
             lista2=pickle.load(b)
             b.close
             for lista in lista2:
                 if lista[0]==anima:
                     lista.append(at)
-                    a=open("Anotaciones","wb")
+                    a=open(nombre,"wb")
                     pickle.dump(lista2,a)
                     a.close
                     for objeto in lista2:
@@ -184,7 +194,7 @@ def anotaciones():
         except:
             pass
         lista2+=[[anima,at]]
-        a=open("Anotaciones","wb")
+        a=open(nombre,"wb")
         pickle.dump(lista2,a)
         a.close
         print("")
@@ -193,20 +203,19 @@ def anotaciones():
             for dato in objeto:
                 print(dato)
     return ""
-def salvaguardando():
+def salvaguardando(nuevaCarpeta,nombre):
     """
     Funcionalidad:Agerga el animal a la matriz con todos sus datos menos la imagen
     Entrada:
-    Salida:
+    Salida: Matriz con nuevo animal añadido
     """
     lista1=[]
     lista2=[]
-    a=open("Anotaciones","rb")
+    a=open(nombre,"rb")
     anotaciones=pickle.load(a)
     a.close
-    b=open("AP.txt","r")
-    for linea in b.readlines():
-        lista1+= [linea]
+    b=open(nuevaCarpeta,"rb")
+    lista1 = pickle.load(b)
     b.close
     print("Buscando información...")
     for anima in lista1:
@@ -237,8 +246,8 @@ def salvaguardando():
 def exportandoBD():
     """
     Funcionalidad:Genera un archivo de tipo .xml que almacene la lista completa de animales 
-    Entrada:
-    Salida:
+    Entrada: 
+    Salida: Archivo XML creado
     """
     a=open("Salvaguardado","rb")
     lista=pickle.load(a)
@@ -267,7 +276,7 @@ def salir():
     print("Los animales nacen como son, lo aceptan y eso es todo. Viven con mayor paz que las personas")
     return ""
 #agregarAnimales()
-#obtenerInformacion()
+#obtenerInformacion("Animales")
 #apartarAnimales()
 #anotaciones()
 #salvaguardando()
