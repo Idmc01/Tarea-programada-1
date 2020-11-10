@@ -13,53 +13,53 @@ def nombreZoo():
     print("Crear nombre de zoológico")
     nombre=input("Introduzzca el nombre de su zoológico: ")
     print(nombre)
-    return menu()
-def opcion1():
+    return menu(nombre)
+def opcion1(nuevaCarpeta,nombre):
     """
     Funcionalidad:Llamar a agergarAnimales
     Entradas:
     Salidas:
     """
     print("Agregar animales")
-    agregarAnimales()
-    return menuAux()
-def opcion2():
+    nuevaCarpeta=agregarAnimales(nuevaCarpeta)
+    return menuAux(nuevaCarpeta,nombre)
+def opcion2(nuevaCarpeta,nombre):
     """
     Funcionalidad:Llamar a obtenerInformacion
     Entradas:
     Salidas:
     """
     print("Obtener información de un animal")
-    obtenerInformacion()
-    return menuAux()
-def opcion3():
+    obtenerInformacion(nuevaCarpeta)
+    return menuAux(nuevaCarpeta,nombre)
+def opcion3(nuevaCarpeta,nombre):
     """
     Funcionalidad:Llamar a anotaciones
     Entradas:
     Salidas:
     """
     print("Registrar anotaciones")
-    anotaciones()
-    return menuAux()
-def opcion4():
+    anotaciones(nuevaCarpeta,nombre)
+    return menuAux(nuevaCarpeta,nombre)
+def opcion4(nuevaCarpeta,nombre):
     """
     Funcionalidad:Llamar a apartarAnimales
     Entradas:
     Salidas:
     """
     print("Apartar animales de mi zoológico")
-    apartarAnimales()
-    return menuAux()
-def opcion5():
+    apartarAnimales(nuevaCarpeta)
+    return menuAux(nuevaCarpeta,nombre)
+def opcion5(nuevaCarpeta,nombre):
     """
     Funcionalidad:Llamar a salvaguardando
     Entradas:
     Salidas:
     """
     print("Salvaguardando estable mi zoológico")
-    salvaguardando()
-    return menuAux()
-def opcion6():
+    salvaguardando(nuevaCarpeta,nombre)
+    return menuAux(nuevaCarpeta,nombre)
+def opcion6(nuevaCarpeta,nombre):
     """
     Funcionalidad:Llamar a exportandoBD
     Entradas:
@@ -67,7 +67,7 @@ def opcion6():
     """
     print("Exportando la base de datos ")
     exportandoBD()
-    return menuAux()
+    return menuAux(nuevaCarpeta,nombre)
 def opcion7():
     """
     Funcionalidad:Llamar a salir
@@ -77,13 +77,13 @@ def opcion7():
     print("Salir del sistema de Información")
     salir()
     return ""
-def menu():
+def menu(nombre):
     """
     Funcionalidad:Mostrar menu al usuario
     Entradas:Opcion del menu
     Salidas:Funcione elegida
     """
-    
+    nuevaCarpeta=""
     print("""
 *---------------------------------------------------------*
 |    1. Agregar animales                                  |
@@ -99,26 +99,26 @@ def menu():
             opcion = int(input("inserte una opcion: "))
             if opcion >=1 and opcion<=7:
                 if opcion == 1:
-                    opcion1()
+                    opcion1(nuevaCarpeta,nombre)
                 elif opcion == 2:
-                    opcion2()
+                    opcion2(nuevaCarpeta,nombre)
                 elif opcion == 3:
-                    opcion3()
+                    opcion3(nuevaCarpeta,nombre)
                 elif opcion == 4:
-                    opcion4()
+                    opcion4(nuevaCarpeta,nombre)
                 elif opcion == 5:
-                    opcion5()
+                    opcion5(nuevaCarpeta,nombre)
                 elif opcion == 6:
-                    opcion6()
+                    opcion6(nuevaCarpeta,nombre)
                 elif opcion == 7:
                     opcion7()
             else:
                 print("ingrese una opción válida")
-                return menuAux()
+                return menuAux(nuevaCarpeta,nombre)
     except:
         print("Ingrese una opción valida")
-        return menuAux()
-def menu():
+        return menuAux(nuevaCarpeta,nombre)
+def menuAux(nuevaCarpeta,nombre):
     """
     Funcionalidad:Mostrar menu al usuario
     Entradas:Opcion del menu
@@ -139,22 +139,23 @@ def menu():
             opcion = int(input("inserte una opcion: "))
             if opcion >=1 and opcion<=7:
                 if opcion == 1:
-                    opcion1()
+                    opcion1(nuevaCarpeta,nombre)
                 elif opcion == 2:
-                    opcion2()
+                    opcion2(nuevaCarpeta,nombre)
                 elif opcion == 3:
-                    opcion3()
+                    opcion3(nuevaCarpeta,nombre)
                 elif opcion == 4:
-                    opcion4()
+                    opcion4(nuevaCarpeta,nombre)
                 elif opcion == 5:
-                    opcion5()
+                    opcion5(nuevaCarpeta,nombre)
                 elif opcion == 6:
-                    opcion6()
+                    opcion6(nuevaCarpeta,nombre)
                 elif opcion == 7:
                     opcion7()
             else:
                 print("ingrese una opción válida")
+                return menuAux(nuevaCarpeta,nombre)
     except:
         print("Ingrese una opción valida")
-        return menu()
+        return menuAux(nuevaCarpeta,nombre)
 nombreZoo()
