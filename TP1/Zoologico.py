@@ -11,7 +11,7 @@ def nombreZoo():
     Salidas:Nombre de zoológico
     """
     print("Crear nombre de zoológico")
-    nombre=input("Introduzzca el nombre de su zoológico: ")
+    nombre=input("Introduzca el nombre de su zoológico: ")
     print(nombre)
     return menu(nombre)
 def opcion1(nuevaCarpeta,nombre):
