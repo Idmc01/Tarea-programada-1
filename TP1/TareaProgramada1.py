@@ -135,14 +135,13 @@ def apartarAnimales(nuevaCarpeta):
     """
     lista1 = []
     lista2 = []
-    try:
-        cantidadA = int(input("Ingrese la cantidad de animales que puede conservar en su zoologico: "))
-    except:
-        print("Cantidad no válida")
-        return apartarAnimales()
+    cantidadA = int(input("Ingrese la cantidad de animales que puede conservar en su zoologico: "))
     a = open(nuevaCarpeta,"rb")
     lista1 = pickle.load(a)
     a.close
+    if cantidadA>=len(lista1):
+        print("Cantidad no válida")
+        return apartarAnimales(nuevaCarpeta)
     while cantidadA>0:
         animal=random.choice(lista1)
         if animal in lista2:
@@ -277,7 +276,7 @@ def salir():
     return ""
 #agregarAnimales()
 #obtenerInformacion("Animales")
-#apartarAnimales()
+#apartarAnimales("Animales")
 #anotaciones()
 #salvaguardando()
 #exportandoBD()
